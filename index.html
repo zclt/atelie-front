@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Novelos front</title>
+</head>
+<body>
+  <h1>Lista de novelos</h1>
+  <ul id="items">
+  </ul>
+</body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
+    <script>
+    axios.get('http://localhost:3000/api/v1/novelos')
+        .then(response => criaListaDinamica(response.data))
+        .catch(error => console.log(error))
+
+    const criaListaDinamica = ( items ) => {
+        const uItens = document.getElementById('items')
+        items.map(item => {
+            const listaItems = document.createElement('li')
+            listaItems.innerHTML = `Nome: ${item.nome}`
+            uItens.appendChild(listaItems)
+        })
+    }
+    </script>
+</html>
