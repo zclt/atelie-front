@@ -12,12 +12,24 @@
   </ul>
 </body>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
-    <script>
-    axios.get('http://localhost:3000/api/v1/novelos')
-        .then(response => criaListaDinamica(response.data))
-        .catch(error => console.log(error))
+    <script>     
+      let user = "admin"
+      let pwd = "admin"
+      let token = ""
 
-    const criaListaDinamica = ( items ) => {
+      axios.post('http://localhost:3000/login',
+        `user=${user}&pwd=${pwd}`,
+        {headers: {'Content-Type':'application/x-www-form-urlencoded'}
+      })
+      .then(response => {
+        token = response.data.token;
+        axios.get('http://localhost:3000/api/v1/novelos', {headers:{'x-access-token': token}})
+          .then(response => criaListaDinamica(response.data))
+          .catch(error => console.log(error))
+      })
+      .catch(error => console.log(error))
+
+      const criaListaDinamica = ( items ) => {
         const uItens = document.getElementById('items')
         items.map(item => {
             const listaItems = document.createElement('li')
